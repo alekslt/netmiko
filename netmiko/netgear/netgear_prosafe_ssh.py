@@ -60,3 +60,23 @@ class NetgearProSafeSSH(CiscoSSHConnection):
         return super().save_config(
             cmd=save_cmd, confirm=confirm, confirm_response=confirm_response
         )
+
+class NetgearProSafeTelnet(NetgearProSafeSSH):
+    """ProSafe OS support"""
+    def telnet_login(
+        self,
+        pri_prompt_terminator: str = r"\#\s*$",
+        alt_prompt_terminator: str = r">\s*$",
+        username_pattern: str = r"(?:user:|username|login|Applying Interface configuration, please wait ...)",
+        pwd_pattern: str = r"assword:",
+        delay_factor: float = 1.0,
+        max_loops: int = 20,
+    ) -> str:
+        super().telnet_login(
+                pri_prompt_terminator,
+                alt_prompt_terminator,
+                username_pattern,
+                pwd_pattern,
+                delay_factor,
+                max_loops,
+            )
